@@ -1,6 +1,7 @@
 import { prisma } from '$lib';
 import { error } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
+import { invalidateAll } from '$app/navigation';
 
 export const load = (async ({params}) => {
     const {artid} = params;
@@ -15,6 +16,8 @@ export const load = (async ({params}) => {
             pixels: true,
         },
     });
+
+    
 
     if (!art) {
 
@@ -35,8 +38,6 @@ export const actions: Actions = {
         }
 
 
-        console.log(color)
-    
         //update the pixel in the database to color picked
         await prisma.pixel.update({
             where: {

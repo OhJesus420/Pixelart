@@ -1,57 +1,12 @@
-import { prisma } from '$lib';
-import { error } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types';
-
-export const load = (async () => {
+import { redirect } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
 
-    //load all pixelart 
+export const load = (async ({cookies}) => {
 
-const arts = await prisma.pixelArt.findMany({});
 
-    return {arts};
+    if(!cookies.get("username")){
+        throw redirect(307,'/login')
+    }
+    return {};
 }) satisfies PageServerLoad;
-
-export const actions: Actions = {
-    // action to create new pixelart
-
-    create: async ({ cookies, request }) => {
-        const data = await request.formData();
-        const name = data.get('name')?.toString();
-        const height = data.get('height')?.toString();
-        const width = data.get('width')?.toString();
-
-        if (!name || !height || !width) {
-            throw error(400, 'Missing name, height or width');
-
-
-        }
-        //create the pixels for the pixelart
-        
-        const pixels = [];
-        const parsedHeight = parseInt(height, 10);
-        const parsedWidth = parseInt(width, 10);
-
-        for (let i = 0; i < parsedHeight; i++) {
-            for (let j = 0; j < parsedWidth; j++){
-                pixels.push({
-                    x: j,
-                    y: i,
-                    color: 'white',
-                });
-            }
-        }
-
-        //store the pixelart in the database
-        const pixelArt = await prisma.pixelArt.create({
-            data: {
-                name,
-                width: parsedWidth,
-                height: parsedHeight,
-                pixels: {
-                    create: pixels,
-                },
-            },
-        });
-    },
-};

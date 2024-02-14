@@ -1,35 +1,33 @@
-<!-- page for creating new pixelart -->
-
-<!-- we are using sveltekit form ac./arts/$typesns/$typesd loading data from a sveltekit server -->
-
 <script lang="ts">
+    import { enhance } from '$app/forms';
+    import type { PageData } from './$types';
 
-  export let data;
-
+    export let data: PageData;
 </script>
+<html lang="se">
 
-<!-- add a list of pixelart which lists data.arts -->
+    <a href="/pixelarts" >Pixelarts</a>
 
-<ol>
-  {#each data.arts as art}
-      <li>
-          <a href="/{art.id}">{art.name}</a>
-      </li>
-  {/each}
-</ol>
+    <h1>
+        HOME
+    </h1>
 
-<!-- add a form for sending name width and height -->
 
-<form action="?/create" method="post">
+    <form method="post" action="/login?/logout" use:enhance>
 
-  <label for="name">Name</label>
-  <input type="text" name="name" id="name" required>
 
-  <label for="width">Width</label>
-  <input type="number" name="width" id="width" required>
+        <button>LOGOUT</button>
 
-  <label for="height">Height</label>
-  <input type="number" name="height" id="height" required>
+    
+    </form>
+</html>
 
-  <button type="submit">Create</button>
-</form>
+<style>
+    html{
+        background-color: #524e4e;
+        width: 100wh;
+        height: 100vh;
+        overflow: hidden
+
+    }
+</style>

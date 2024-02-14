@@ -17,6 +17,8 @@ model User {
   password String
   salt     String
   hash String
+  favorites String @default("[]")
+  
 }
 
 
@@ -40,4 +42,5 @@ model Pixel {
   color     String
   pixelArt  PixelArt @relation(fields: [pixelArtId], references: [id])
   pixelArtId Int
+  time      DateTime @default(now())
 }

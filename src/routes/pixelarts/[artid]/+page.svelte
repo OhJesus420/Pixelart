@@ -1,5 +1,7 @@
 <script lang="ts">
+    import { browser } from '$app/environment';
     import { enhance } from '$app/forms';
+    import { invalidateAll } from '$app/navigation';
     
     import type { PageData } from './$types';
 
@@ -8,7 +10,11 @@
 
     let isEraser =false;
  
-   
+    if(browser){
+        let timer = setInterval(() => {
+            invalidateAll()
+        }, 1000);
+    }
 
    
 </script>
